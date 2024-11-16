@@ -1,0 +1,34 @@
+{
+  "name": "bitcoin-ts",
+  "version": "0.1.0",
+  "description": "Bitcoin lib optimized for typescript projects",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "test": "jest --watch",
+    "tsc": "tsc --init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/slacerda85/bitcoin-ts"
+  },
+  "author": "Stephani Lacerda",
+  "license": "MIT",
+  "devDependencies": {
+    "@swc/jest": "^0.2.37",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.8.1",
+    "@types/secp256k1": "^4.0.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "bech32": "^2.0.0",
+    "bip39": "^3.1.0",
+    "bs58": "^6.0.0",
+    "int64-buffer": "^1.0.1",
+    "secp256k1": "^5.0.1"
+  }
+}
