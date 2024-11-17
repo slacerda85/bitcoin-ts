@@ -1,7 +1,7 @@
 import bip32vectors from "./test-vectors/bip32-vectors"
 import bip49Vectors from "./test-vectors/bip49-vectors"
 import Wallet from "./wallet";
-import {createPublicKey, deriveFromPath, serializePrivateKey, serializePublicKey} from '@/key'
+import {createPublicKey, deriveFromPath, serializePrivateKey, serializePublicKey, serializePublicKeyForSegWit} from '@/key'
 import {toBase58, fromBase58, encode, decode} from '@/crypto'
 import bip84Vectors from "./test-vectors/bip84-vectors";
 
@@ -147,7 +147,7 @@ describe("Wallet", () => {
             const privKeyHash = toBase58(serializedPrivateKey);
             const pubKeyHash = toBase58(serializedPublicKey);
 
-            const address = encode(publicKey, 'bc', 0);
+            
     
             test('zprv/zpub', () => {
               if (vector.chains[path].privKey.startsWith('zprv') && vector.chains[path].pubKey.startsWith('zpub')) {
@@ -155,11 +155,14 @@ describe("Wallet", () => {
                 expect(pubKeyHash).toBe(vector.chains[path].pubKey);
               }
             })
-            test('address', () => {
+            
               if (vector.chains[path].address) {
+                const address = serializePublicKeyForSegWit(publicKey, 0)
+                test('address', () => {
                 expect(address).toBe(vector.chains[path].address);
+               })
               }
-            })
+           
           })
         });
       });

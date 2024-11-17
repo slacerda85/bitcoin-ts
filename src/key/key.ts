@@ -1,4 +1,5 @@
 import { createChecksum, hash160, hmacSeed } from "@/crypto";
+import { bech32 } from "bech32";
 import { entropyToMnemonic, mnemonicToSeedSync } from "bip39";
 import wordList from "bip39/src/wordlists/english.json";
 import { createHmac } from "crypto";
@@ -268,4 +269,28 @@ export function serializePublicKey(
   const finalKey = Buffer.concat([publicKeyBuffer, checksum]);
 
   return finalKey;
+}
+
+export function serializePublicKeyForSegWit(
+  publicKey: Buffer,
+  version: number = 0
+): string {
+  // Check if the public key is valid
+  if (!secp256k1.publicKeyVerify(publicKey)) {
+    throw new Error("Invalid public key");
+  }
+
+  // Hash the public key using SHA256 and then RIPEMD160
+  const hash = hash160(publicKey);
+
+  // Convert the hash to words (5-bit groups)
+  const programWords = bech32.toWords(hash);
+
+  // Prepend the version byte to the words array
+  const words = [version, ...programWords];
+
+  // Encode using Bech32
+  const segWitAddress = bech32.encode('bc', words);
+
+  return segWitAddress;
 }
